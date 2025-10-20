@@ -1,0 +1,17 @@
+{
+  "colors": {
+    "background": "#0B1220",
+    "surface": "#1F2937",
+    "accent": "#15B2A0",
+    "accent2": "#D4A76A",
+    "textMuted": "#94A3B8",
+    "text": "#F7F7F5",
+    "success": "#20C997",
+    "warning": "#FFB020",
+    "error": "#E34B4B"
+  },
+  "radius": { "sm": 8, "md": 16, "lg": 24 },
+  "motion": { "short": 160, "medium": 320, "long": 560 },
+  "easing": "cubic-bezier(.2,.9,.2,1)",
+  "typography": { "heading": "Merriweather", "body": "Inter" }
+}

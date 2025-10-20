@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Design tokens */
+:root {
+  --bg: #0B1220; /* Graphite */
+  --surface: #1F2937; /* Slate 800 */
+  --accent: #15B2A0; /* Warm Teal */
+  --accent-2: #D4A76A; /* Warm Gold */
+  --text-muted: #94A3B8; /* Stone */
+  --text: #F7F7F5; /* Off-white */
+  --success: #20C997; /* Viridian */
+  --warning: #FFB020; /* Amber */
+  --error: #E34B4B; /* Carmine */
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --easing: cubic-bezier(.2,.9,.2,1);
+  --motion-short: 160ms;
+  --motion-medium: 320ms;
+  --motion-long: 560ms;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-merriweather);
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.surface {
+  background-color: var(--surface);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #10202a 0%, #153d3a 40%, #0b1220 100%);
+}
+
+.shadow-soft {
+  box-shadow:
+    0 1px 1px rgba(0,0,0,0.08),
+    0 4px 12px rgba(0,0,0,0.12),
+    inset 0 0 0 0.5px rgba(255,255,255,0.02);
+}
+
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+/* Motion helpers */
+.animate-hero-enter {
+  animation: hero-enter var(--motion-medium) var(--easing) both;
+}
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(12px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+
+.animate-bounce-in {
+  animation: bounce-in var(--motion-short) var(--easing) both;
+}
+@keyframes bounce-in {
+  0% { transform: scale(.98); opacity: 0 }
+  60% { transform: scale(1.02); opacity: 1 }
+  100% { transform: scale(1) }
+}
+
+.animate-shake {
+  animation: shake var(--motion-short) var(--easing);
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px) }
+  20%, 80% { transform: translateX(2px) }
+  30%, 50%, 70% { transform: translateX(-4px) }
+  40%, 60% { transform: translateX(4px) }
+}

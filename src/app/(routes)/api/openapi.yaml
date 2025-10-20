@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: Edge-TTS Supabase Functions API
+  version: 1.0.0
+servers:
+  - url: https://{project-ref}.functions.supabase.co
+    variables:
+      project-ref:
+        default: YOUR_PROJECT_REF
+paths:
+  /upload:
+    post:
+      summary: Upload input file
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Upload accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId: { type: string }
+                  pages: { type: integer }
+                  bookName: { type: string }
+  /generateAudiobook:
+    post:
+      summary: Generate audiobook job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AudiobookConfig'
+      responses:
+        '200':
+          description: Job queued
+  /generatePodcast:
+    post:
+      summary: Generate podcast job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PodcastConfig'
+      responses:
+        '200':
+          description: Job queued
+  /status:
+    get:
+      summary: Status via realtime; placeholder
+      responses:
+        '200': { description: OK }
+  /download:
+    get:
+      summary: Get a signed download URL
+      parameters:
+        - in: query
+          name: path
+          schema: { type: string }
+      responses:
+        '200': { description: URL issued }
+components:
+  schemas:
+    AudiobookConfig:
+      type: object
+      properties:
+        voiceId: { type: string }
+        rate: { type: integer, minimum: -50, maximum: 50, default: 0 }
+        pitch: { type: integer, minimum: -50, maximum: 50, default: 0 }
+        volume: { type: integer, minimum: -50, maximum: 50, default: 0 }
+        ssml: { type: boolean, default: false }
+        chunkWords: { type: integer, minimum: 50, maximum: 500, default: 500 }
+        workers: { type: integer, minimum: 1, maximum: 10, default: 3 }
+        outputFormat: { type: string, enum: [mp3], default: mp3 }
+        bitrateKbps: { type: integer, enum: [192], default: 192 }
+        mode: { type: string, enum: [chapterwise, complete, both], default: both }
+        chapterPauseMs: { type: integer, default: 1000 }
+    PodcastConfig:
+      type: object
+      properties:
+        model: { type: string, enum: [groq, llama31, claude35, gemini15] }
+        fallbacks:
+          type: array
+          items: { type: string }
+        hostA: { type: string }
+        hostB: { type: string }
+        interleaved: { type: boolean, default: true }
+        stereo: { type: boolean, default: true }
+        quality: { type: integer, minimum: 0, maximum: 9, default: 4 }
